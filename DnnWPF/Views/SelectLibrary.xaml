@@ -1,0 +1,15 @@
+﻿<Window x:Class="DnnWPF.Views.SelectLibrary"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DnnWPF.Views"
+        mc:Ignorable="d"
+        Title="Select a library" Height="154.064" Width="418.72" Background="White" ResizeMode="NoResize">
+    <Grid>
+        <Label Content="Which library to use for recognition?" HorizontalAlignment="Left" Margin="48,10,0,0" VerticalAlignment="Top" Foreground="Green" FontSize="20"/>
+        <Button Content="EmguCV" HorizontalAlignment="Left" VerticalAlignment="Top" Width="125" Margin="68,52,0,0"  Style="{StaticResource ResourceKey=EllipseGreenButton}" Height="54" Click="SelectedEmguCV_Click"/>
+        <Button Content="SharpCV" HorizontalAlignment="Left" VerticalAlignment="Top" Width="125" Margin="225,52,0,0"  Style="{StaticResource ResourceKey=EllipseGreenButton}" Height="52" Click="SelectedSharpCV_Click"/>
+
+    </Grid>
+</Window>
