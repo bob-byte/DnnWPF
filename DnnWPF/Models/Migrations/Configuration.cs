@@ -38,10 +38,6 @@ namespace DnnWPF.Migrations
                     foreach (var item in imagesForTests)
                     {
                         context.ImagesForTests.AddOrUpdate(item);
-                        //AddValidIdsOfImageToTypeRoadSings(item.ValidId,
-                        //                                  false,
-                        //                                  item.PathToImage,
-                        //                                  (IEnumerable<Byte>)item.ValidId);
                     }
                     context.SaveChanges();
                 }

@@ -41,14 +41,14 @@ namespace DnnWPF.ViewModels
                 {
                     try
                     {
-                        //model.setInput(mat);
-                        //var preeds = model.forward().GetData();
+                        model.setInput(mat);
+                        var preeds = model.forward().GetData();
 
-                        throw new Exception();
+                        return (Array)preeds;
                     }
                     catch
                     {
-                        throw new NotImplementedException("Methods setInput and forward don\'t work");
+                        throw;
                     }
 
                 }

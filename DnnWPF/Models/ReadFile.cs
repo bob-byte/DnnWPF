@@ -3,8 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DnnWPF.Models
 {
@@ -59,15 +57,6 @@ namespace DnnWPF.Models
                 {
                     throw new ArgumentNullException("Can\'t get any image with these paths");
                 }
-                //String[] imageNamesArray = imageNames.ToArray();
-
-                //for (int i = 0; i < imageNamesArray.Length; i++)
-                //{
-                //    if (!images.Any(t => t.PathToImage.Equals(imageNamesArray[i], StringComparison.CurrentCultureIgnoreCase)))
-                //    {
-                //        images.Add(new ImagesForTests { PathToImage = imageNamesArray[i], ValidId = validIdsArray[i] });
-                //    }
-                //}
 
                 var roadSign = context.TypesRoadSigns.Single(c => c.ClassId == classId);
 

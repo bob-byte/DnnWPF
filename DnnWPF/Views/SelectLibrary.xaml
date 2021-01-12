@@ -8,8 +8,9 @@
         Title="Select a library" Height="154.064" Width="418.72" Background="White" ResizeMode="NoResize">
     <Grid>
         <Label Content="Which library to use for recognition?" HorizontalAlignment="Left" Margin="48,10,0,0" VerticalAlignment="Top" Foreground="Green" FontSize="20"/>
+        
         <Button Content="EmguCV" HorizontalAlignment="Left" VerticalAlignment="Top" Width="125" Margin="68,52,0,0"  Style="{StaticResource ResourceKey=EllipseGreenButton}" Height="54" Click="SelectedEmguCV_Click"/>
+        
         <Button Content="SharpCV" HorizontalAlignment="Left" VerticalAlignment="Top" Width="125" Margin="225,52,0,0"  Style="{StaticResource ResourceKey=EllipseGreenButton}" Height="52" Click="SelectedSharpCV_Click"/>
-
     </Grid>
 </Window>

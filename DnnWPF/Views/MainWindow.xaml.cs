@@ -48,30 +48,29 @@ namespace DnnWPF.Views
             {
                 Filter = "Image files|*.bmp;*.jpg;*.gif;*.png;*.ppm;*.tif|All files|*.*"
             };
+
             Boolean? findImage = openImage.ShowDialog();
+
             if (findImage == true)
             {
                 try
                 {
                     image = new Image<Bgr, Byte>(openImage.FileName);
                     pathToImage = openImage.SafeFileName;
+
                     pictureBox1.Source = ConvertToBitmapSource.LoadBitmap(image.ToBitmap());
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
+
                 T_B_ValidLabelName.Text = "";
                 T_B_PredictedLabelName.Text = "";
 
                 isPredicted = false;
             }
         }
-
-        //private void SelectVideo_Click(object sender, RoutedEventArgs e)
-        //{
-
-        //}
 
         private void Recognise_Click(object sender, RoutedEventArgs e)
         {
@@ -94,11 +93,9 @@ namespace DnnWPF.Views
 
                         model = (SharpCV.Net)recognising.LoadModel("netWithoutCLAHE.onnx");
                     }
+
                     predictedId = (Byte)recognising.GetPredictedIdOfRoadSign<Double>(model, image);
-                    //MainRecognisingTypeOfRoadSign mainRecognising = new MainRecognisingTypeOfRoadSign();
-                    //predictedId = mainRecognising.GetPredictedIdOfRoadSign("trafficsignnetWithoutCLAHE.onnx", image);
                     isPredicted = true;
-                    //pictureBox1.Source = ConverToBitmapInWPF.LoadBitmap(image.Bitmap);
 
                     T_B_PredictedLabelName.Text = $"Predicted road sign: {query.GetNameOfPredictedRoadSign(predictedId)}";
 
@@ -158,6 +155,7 @@ namespace DnnWPF.Views
 
                     query.AddImage(pathToImage, validId, predictedId, true);
                     query.UpdateTypesRoadSigns(validId);
+
                     MessageBox.Show("Image successfully added to database", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 catch (Exception ex)
@@ -219,6 +217,7 @@ namespace DnnWPF.Views
         protected override void OnClosing(CancelEventArgs e)
         {
             query.Dispose();
+
             if (image != null)
             {
                 image.Dispose();

@@ -1,8 +1,7 @@
 namespace DnnWPF.Migrations
 {
-    using System;
     using System.Data.Entity.Migrations;
-    
+
     public partial class CreateRelationshipsBetweenColumnValidSignIdOfTestedImagesAndColumnClassIdOfTypesRoadSigns : DbMigration
     {
         public override void Up()

@@ -1,7 +1,6 @@
 ﻿using DnnWPF.Models.Domain;
 using Emgu.CV;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Entity;
 using System.Linq;
@@ -12,49 +11,17 @@ namespace DnnWPF.Models
     {
         private RoadSignsDbContext context = new RoadSignsDbContext();
 
-        IEnumerable<TestedImages> AddImages(String pathToImage, IEnumerable<TypesRoadSigns> typeValidSign, IEnumerable<TypesRoadSigns> typePredictedSign)
-        {
-            Boolean duplicate = context.TestedImages.Any(c => c.PathToTestedImage == pathToImage);
-            if (duplicate)
-            {
-                throw new DuplicateWaitObjectException("Image in table has such value in column \"PathToTestedImage\"");
-            }
-            else
-            {
-                IEnumerable<TestedImages> testedImages = new List<TestedImages>();
-                var image = new TestedImages { PathToTestedImage = pathToImage };
-                var arrayValid = typeValidSign.ToArray();
-                var arrayPredict = typePredictedSign.ToArray();
-
-                if (typeValidSign != null && typePredictedSign != null && typeValidSign.Count() == typePredictedSign.Count())
-                {
-                    for (int i = 0; i < typeValidSign.Count(); i++)
-                    {
-                        //image.TypeValidSign = arrayValid[i];
-                        //image.TypesPredictedSigns = arrayPredict[i];
-                        context.TestedImages.Add(image);
-                        testedImages.Append(image);
-                    }
-                    context.SaveChanges();
-
-                    return testedImages;
-                }
-                else
-                {
-                    throw new Exception("Invalid parameters");
-                }
-            }
-        }
-
         internal TestedImages AddImage(String nameImage, Byte validId, Byte predictedId, Boolean whetherUpdateDataOfImage)
         {
-            Boolean duplicate = context.TestedImages.Any(c => c.PathToTestedImage.Contains(nameImage));
-            TestedImages image;
-            if (duplicate && !whetherUpdateDataOfImage)
+            Boolean hasDuplicate = context.TestedImages.Any(c => c.PathToTestedImage.Contains(nameImage));
+
+            if (hasDuplicate && !whetherUpdateDataOfImage)
             {
                 throw new DuplicateWaitObjectException("Image in table has such value in column \"PathToTestedImage\"");
             }
-            else if (duplicate && whetherUpdateDataOfImage)
+
+            TestedImages image;
+            if (hasDuplicate && whetherUpdateDataOfImage)
             {
                 var imageForTest = context.ImagesForTests.SingleOrDefault(c => c.PathToImage.Contains(nameImage));
                 if (imageForTest == null)
@@ -64,6 +31,7 @@ namespace DnnWPF.Models
 
                 var validRoadSign = context.TypesRoadSigns.Single(c => c.ClassId == validId);
                 validRoadSign.CountTest--;
+
                 image = context.TestedImages.Single(c => c.Id == imageForTest.Id);
                 image.TypeValidSign = validRoadSign;
                 image.TypePredictedSign = context.TypesRoadSigns.Single(c => c.ClassId == predictedId);
@@ -134,6 +102,7 @@ namespace DnnWPF.Models
                 {
                     throw new Exception("This image doesn\'t exist in database");
                 }
+
                 return roadSign.TypeValidSign.Name;
             }
             else
@@ -158,28 +127,6 @@ namespace DnnWPF.Models
             {
                 throw new DuplicateWaitObjectException("Bad name of file. More than 1 record have such name");
             }
-        }
-
-        internal void UpdateTypesRoadSigns(String pathToImage, IEnumerable<TypesRoadSigns> typeValidSign, IEnumerable<TypesRoadSigns> typePredictedSign)
-        {
-            AddImages(pathToImage, typeValidSign, typePredictedSign);
-            foreach (var item in typePredictedSign)
-            {
-                var typeRoadSign = context.TypesRoadSigns.Single(c => c.ClassId == item.ClassId);
-                Int32 rightRecognised = 0;
-
-                item.CountTest++;
-                for (Int32 i = 0; i < typeRoadSign.CountTest; i++)
-                {
-                    //if (typeRoadSign.ValidImagesForTest[i].ValidSignId == typeRoadSign.TestedImagesPredicted[i].PredictedSignId)
-                    //{
-                    //    rightRecognised++;
-                    //}
-                }
-                typeRoadSign.PrecisionRecognising = (Double)rightRecognised / typeRoadSign.CountTest;
-            }
-
-            context.SaveChanges();
         }
 
         internal void UpdateTypesRoadSigns(Byte validId)

@@ -4,19 +4,9 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:DnnWPF.Views"
-      xmlns:ViewModel="clr-namespace:DnnWPF.ViewModels"
-      xmlns:DnnWPF="clr-namespace:DnnWPF.Views" x:Class="DnnWPF.Views.StatisticsWindow"
+      x:Class="DnnWPF.Views.StatisticsWindow"
       mc:Ignorable="d"
-      Title="StatisticsWindow" Loaded="Window_Loaded" Height="433.239" Background="#FF2F821A" Width="1458.4" FontSize="13" FontWeight="Bold">
-    <Window.Resources>
-        <!--<CommandBinding Command="Help" Executed="Help_Executed"/>-->
-        <!--<ViewModel:StatisticViewModel x:Key="Statistics"/>-->
-        <!--<DnnWPF:RoadSignsDnnDataSet x:Key="roadSignsDnnDataSet"/>
-        -->
-        <!--<CollectionViewSource x:Key="testedImagesViewSource" Source="{Binding TestedImages, Source={StaticResource roadSignsDnnDataSet}}"/>-->
-        <!--<CollectionViewSource x:Key="typesRoadSigns" Source="{Binding Source={StaticResource Statistics}, Path=TypesRoadSignsCollection}"/>-->
-        <!--<ViewModel:StatisticViewModel x:Key="Statistic"/>-->
-    </Window.Resources>
+      Title="StatisticsWindow" Height="433.239" Background="#FF2F821A" Width="1458.4" FontSize="13" FontWeight="Bold">
     <Grid Margin="0,0,3.6,0">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1.2*"/>

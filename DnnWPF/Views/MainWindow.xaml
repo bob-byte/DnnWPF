@@ -11,22 +11,20 @@
             <RowDefinition Height="491*"/>
             <RowDefinition Height="166*"/>
         </Grid.RowDefinitions>
+        
         <Menu Height="40" VerticalAlignment="Top" Background="Green" Foreground="White" >
             <MenuItem Header="File" Height="37" Width="31" HorizontalAlignment="Stretch">
                 <MenuItem Click="SelectImage_Click" x:Name="SelectImage" Header="Select an image" Margin="0,0,-0.4,0" Background="Black" Foreground="Green"/>
-                <!--<MenuItem Click="SelectVideo_Click" x:Name="SelectVideo" Header="Select a video" Margin="0,0,-0.4,0" Background="Black" Foreground="Green"/>-->
                 <MenuItem Click="SaveImage_Click" x:Name="SaveImage" Header="Save an image" Margin="0,0,-0.4,0" Background="Black" Foreground="Green"/>
-                <!--<MenuItem Click="SelectTestSet_Click" x:Name="SelectTestSet" Header="Select a test set" Background="Black" Foreground="Green"/>
-                <MenuItem Click="SelectXML_Click" x:Name="SelectXML" Header="Select a file .xml" Background="Black" Foreground="Green"/>-->
             </MenuItem>
             <MenuItem Header="Statistics" Height="37" Width="53" HorizontalAlignment="Stretch">
                 <MenuItem Click="ShowStatistic_Click" x:Name="ShowStatistic" Header="Show statistics" Margin="0,0,-0.4,0" Background="Black" Foreground="Green"/>
                 <MenuItem Click="Test_Click" Header="Test images by selected directory" Margin="0,0,-0.4,0" Background="Black" Foreground="Green"/>
             </MenuItem>
         </Menu>
+        
         <Border BorderBrush="Green" BorderThickness="3" 
                 Margin="25,66,24,15.2" RenderTransformOrigin="0.5,0.5">
-            <!--<MediaElement Visibility="Hidden"/>-->
         </Border>
         <Image  Margin="42,88,41,33.4" 
                 x:Name="pictureBox1" OpacityMask="White" Stretch="Fill">
@@ -34,6 +32,7 @@
                 <DropShadowEffect Color="Red" BlurRadius="25"/>
             </Image.Effect>
         </Image>
+        
         <TextBlock Margin="42,88,41,310.4" Grid.Row="0" Panel.ZIndex="1" Foreground="Red" FontSize="16" Name="T_B_ValidLabelName" TextAlignment="Right"/>
         <TextBlock Margin="42,124,41,274.4" Grid.Row="0" Panel.ZIndex="1" Foreground="Red" FontSize="16" Name="T_B_PredictedLabelName" TextAlignment="Right"/>
 
@@ -42,6 +41,7 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
+            
             <Button Click="Recognise_Click" x:Name="Recognise" Content="Recognise" HorizontalAlignment="Center" Margin="92,0,68.6,0" VerticalAlignment="Top" Width="189" Height="104" RenderTransformOrigin="0.487,0.699" Style="{StaticResource EllipseGreenButton}"/>
 
             <Button Click="EnterData_Click" x:Name="EnterData" Content="Enter data in tables" HorizontalAlignment="Center" Margin="55.4,0,61,0" VerticalAlignment="Top" Width="234" Height="104" Grid.Column="3" Style="{StaticResource EllipseGreenButton}"/>

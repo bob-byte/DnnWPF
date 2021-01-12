@@ -32,12 +32,15 @@ namespace DnnWPF.ViewModels
         {
             get 
             {
-                Int32 classId = dataGrid.SelectedIndex;
-                if (classId != -1)
+                Int32 id = dataGrid.SelectedIndex;
+
+                if (id != -1)
                 {
-                    using(var query = new Query())
+                    var roadSign = dataGrid.Items[id] as TypesRoadSigns;
+
+                    using (var query = new Query())
                     {
-                        TestedImagesForShow = query.GetTestedImagesByValidId((Byte)classId);
+                        TestedImagesForShow = query.GetTestedImagesByValidId(roadSign.ClassId);
                     }
                 }
                 return selectedTypeRoadSign;
@@ -54,6 +57,7 @@ namespace DnnWPF.ViewModels
             {
                 TypesRoadSignsCollection = query.GetAllTypesRoadSigns();
             }
+
             this.dataGrid = dataGrid;
         }
 
