@@ -12,7 +12,7 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="5"/>
                             </Grid.ColumnDefinitions>
-                            <Ellipse StrokeThickness=".5" Fill="Green" Grid.Column="1">
+                            <Ellipse StrokeThickness=".5" Fill="Green" Grid.Column="1" Name="bigEllipse">
                                 <Ellipse.Stroke>
                                     <LinearGradientBrush StartPoint="0,0">
                                         <GradientStop Offset="0" Color="#ff7e7e7e"/>
@@ -30,47 +30,36 @@
                             </Ellipse>
                             <ContentPresenter Content="{TemplateBinding Content}" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="1"></ContentPresenter>
                         </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Ellipse.Fill" TargetName="bigEllipse">
+                                    <Setter.Value>
+                                        <RadialGradientBrush>
+                                            <GradientStop Offset="0" Color="#FF45C9F1"/>
+                                            <GradientStop Offset="1" Color="Transparent"/>
+                                        </RadialGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="Ellipse.Stroke" TargetName="bigEllipse" Value="Transparent">
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Ellipse.Fill" TargetName="bigEllipse">
+                                    <Setter.Value>
+                                        <RadialGradientBrush>
+                                            <GradientStop Offset="0" Color="Black"/>
+                                            <GradientStop Offset="1" Color="LightGray"/>
+                                        </RadialGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="FontSize" Value="20"/>
         </Style.Setters>
-        
-        <Style.Triggers>
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="Button">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="5"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="5"/>
-                                </Grid.ColumnDefinitions>
-                                <Ellipse StrokeThickness=".5" Fill="#FF45C9F1" Grid.Column="1">
-                                    <Ellipse.Stroke>
-                                        <LinearGradientBrush StartPoint="0,0">
-                                            <GradientStop Offset="0" Color="#ff7e7e7e"/>
-                                            <GradientStop Offset="1" Color="Green"/>
-                                        </LinearGradientBrush>
-                                    </Ellipse.Stroke>
-                                </Ellipse>
-                                <Ellipse Margin="15,5,15,50" Grid.Column="1">
-                                    <Ellipse.Fill>
-                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                                            <GradientStop Offset="0" Color="#aaffffff" />
-                                            <GradientStop Offset="1" Color="Transparent" />
-                                        </LinearGradientBrush>
-                                    </Ellipse.Fill>
-                                </Ellipse>
-                                <ContentPresenter Content="{TemplateBinding Content}" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="1"></ContentPresenter>
-                            </Grid>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Trigger>
-        </Style.Triggers>
     </Style>
     
     <Style TargetType="TextBlock" x:Key="oddColumn">
