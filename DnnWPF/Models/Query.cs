@@ -92,7 +92,6 @@ namespace DnnWPF.Models
             return context.TypesRoadSigns.Local;
         }
 
-        //If image doesn't exist in DB than we should add it ImagesForTest
         internal String GetNameOfValidRoadSign(String nameImage)
         {
             if(context.ImagesForTests.Where(c => c.PathToImage.Contains(nameImage)).Count() <= 1)
