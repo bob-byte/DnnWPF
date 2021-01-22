@@ -11,6 +11,8 @@ using Emgu.CV.Dnn;
 using DnnWPF.Models;
 using Ookii.Dialogs.Wpf;
 using System.Threading;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace DnnWPF.Views
 {
@@ -94,9 +96,30 @@ namespace DnnWPF.Views
                         model = (SharpCV.Net)recognising.LoadModel("netWithoutCLAHE.onnx");
                     }
 
-                    predictedId = (Byte)recognising.GetPredictedIdOfRoadSign<Double>(model, image);
-                    isPredicted = true;
+                    ThreadStart recognitionDelegate = new ThreadStart(RunThreadRecognition);
+                    Thread threadRecognition = new Thread(recognitionDelegate)
+                    {
+                        Priority = ThreadPriority.Highest
+                    };
 
+                    threadRecognition.Start();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void RunThreadRecognition()
+        {
+            try
+            {
+                predictedId = (Byte)recognising.GetPredictedIdOfRoadSign<Double>(model, image);
+                isPredicted = true;
+
+                Dispatcher.Invoke(delegate ()
+                {
                     T_B_PredictedLabelName.Text = $"Predicted road sign: {query.GetNameOfPredictedRoadSign(predictedId)}";
 
                     //For checking whether image exist in table
@@ -108,16 +131,13 @@ namespace DnnWPF.Views
                     {
                         T_B_ValidLabelName.Text = $"Valid road sign: {query.GetNameOfValidRoadSign(openImage.SafeFileName)}";
                     }
-                }
+                });
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-
         }
-
-
 
         private void SaveImage_Click(object sender, RoutedEventArgs e)
         {
