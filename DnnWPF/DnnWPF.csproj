@@ -219,6 +219,12 @@
     </Compile>
     <Compile Include="Models\Test.cs" />
     <Compile Include="Models\Query.cs" />
+    <Compile Include="ViewModels\MainViewModel.Data.cs" />
+    <Compile Include="ViewModels\MainViewModel.EnterData.cs" />
+    <Compile Include="ViewModels\MainViewModel.SelectImage.cs" />
+    <Compile Include="ViewModels\MainViewModel.RecognitionTypeRoadSigns.cs" />
+    <Compile Include="ViewModels\MainViewModel.SaveImage.cs" />
+    <Compile Include="ViewModels\MainViewModel.Statistics.cs" />
     <Compile Include="ViewModels\RecognisingEmguCVNoCLAHE.cs" />
     <Compile Include="ViewModels\RecognisingSharpCVNoCLAHE.cs" />
     <Compile Include="ViewModels\RecognisingTypeOfRoadSign.cs" />

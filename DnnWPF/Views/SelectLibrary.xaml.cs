@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using DnnWPF.ViewModels;
+using System.Windows;
 
 namespace DnnWPF.Views
 {
@@ -14,7 +15,7 @@ namespace DnnWPF.Views
 
         private void SelectedEmguCV_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow.TypeOfLibrary = "EmguCV";
+            MainViewModel.TypeOfLibrary = "EmguCV";
 
             DialogResult = true;
             Close();
@@ -22,7 +23,7 @@ namespace DnnWPF.Views
 
         private void SelectedSharpCV_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow.TypeOfLibrary = "SharpCV";
+            MainViewModel.TypeOfLibrary = "SharpCV";
 
             DialogResult = true;
             Close();
