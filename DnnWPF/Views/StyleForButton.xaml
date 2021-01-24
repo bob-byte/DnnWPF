@@ -12,6 +12,7 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="5"/>
                             </Grid.ColumnDefinitions>
+                            
                             <Ellipse StrokeThickness=".5" Fill="Green" Grid.Column="1" Name="bigEllipse">
                                 <Ellipse.Stroke>
                                     <LinearGradientBrush StartPoint="0,0">
@@ -20,6 +21,7 @@
                                     </LinearGradientBrush>
                                 </Ellipse.Stroke>
                             </Ellipse>
+                            
                             <Ellipse Margin="15,5,15,50" Grid.Column="1">
                                 <Ellipse.Fill>
                                     <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
@@ -28,6 +30,7 @@
                                     </LinearGradientBrush>
                                 </Ellipse.Fill>
                             </Ellipse>
+                            
                             <ContentPresenter Content="{TemplateBinding Content}" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="1"></ContentPresenter>
                         </Grid>
                         <ControlTemplate.Triggers>
@@ -40,9 +43,10 @@
                                         </RadialGradientBrush>
                                     </Setter.Value>
                                 </Setter>
-                                <Setter Property="Ellipse.Stroke" TargetName="bigEllipse" Value="Transparent">
-                                </Setter>
+
+                                <Setter Property="Ellipse.Stroke" TargetName="bigEllipse" Value="Transparent"/>
                             </Trigger>
+                            
                             <Trigger Property="IsPressed" Value="True">
                                 <Setter Property="Ellipse.Fill" TargetName="bigEllipse">
                                     <Setter.Value>
@@ -57,21 +61,9 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
+            
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="FontSize" Value="20"/>
         </Style.Setters>
-    </Style>
-    
-    <Style TargetType="TextBlock" x:Key="oddColumn">
-        <Setter Property="Background" Value="#FF9FDD59"/>
-    </Style>
-    <Style TargetType="TextBlock" x:Key="pairColumn">
-        <Setter Property="Background" Value="#FF2F821A"/>
-    </Style>
-    <Style TargetType="DataGridColumnHeader" x:Key="centerHeader">
-        <Setter Property="HorizontalAlignment" Value="Center"/> 
-    </Style>
-    <Style TargetType="DataGridCell" x:Key="cellsCenter">
-        <Setter Property="TextBlock.TextAlignment" Value="Center"/>
     </Style>
 </ResourceDictionary>

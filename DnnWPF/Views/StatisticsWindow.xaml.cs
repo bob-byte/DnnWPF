@@ -1,7 +1,6 @@
 ﻿using DnnWPF.Models.Domain;
 using DnnWPF.ViewModels;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Windows;
 
 namespace DnnWPF.Views
@@ -21,11 +20,6 @@ namespace DnnWPF.Views
             Statistic = new StatisticsViewModel(typesRoadSignsDataGrid);
             DataContext = Statistic;
             TestedImages = Statistic.TestedImagesForShow;
-        }
-
-        protected override void OnClosing(CancelEventArgs e)
-        {
-            base.OnClosing(e);
         }
     }
 }
