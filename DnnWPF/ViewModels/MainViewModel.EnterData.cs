@@ -76,7 +76,8 @@ namespace DnnWPF.ViewModels
             {
                 if(isPredicted)
                 {
-                    var resultDialog = MessageBox.Show($"Are you sure that you want to enter data of image {openFile.SafeFileName} in database?", "Question", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.Yes, MessageBoxOptions.DefaultDesktopOnly);
+                    var resultDialog = MessageBox.Show($"Are you sure that you want to enter data of image {openFile.SafeFileName} in database?",
+                        "Question", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.Yes, MessageBoxOptions.DefaultDesktopOnly);
 
                     if(resultDialog == MessageBoxResult.Yes)
                     {
