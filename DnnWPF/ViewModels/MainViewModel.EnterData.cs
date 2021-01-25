@@ -22,9 +22,9 @@ namespace DnnWPF.ViewModels
                 {
                     if (dialogSelectFolder.ShowDialog().GetValueOrDefault())
                     {
-                        var dialog = MessageBox.Show($"Are you sure that you want to test images in {dialogSelectFolder.SelectedPath}?", "Question", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.Yes);
+                        var resultDialog = MessageBox.Show($"Are you sure that you want to test images in {dialogSelectFolder.SelectedPath}?", "Question", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.Yes);
 
-                        if (dialog == MessageBoxResult.Yes)
+                        if (resultDialog == MessageBoxResult.Yes)
                         {
                             ParameterizedThreadStart testingDelegate = new ParameterizedThreadStart(RunThreadTesting);
 
@@ -76,15 +76,20 @@ namespace DnnWPF.ViewModels
             {
                 if(isPredicted)
                 {
-                    try
-                    {
-                        EnterDataOneImage();
+                    var resultDialog = MessageBox.Show($"Are you sure that you want to enter data of image {openFile.SafeFileName} in database?", "Question", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.Yes, MessageBoxOptions.DefaultDesktopOnly);
 
-                        MessageBox.Show("Image successfully added to database", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                    }
-                    catch (Exception ex)
+                    if(resultDialog == MessageBoxResult.Yes)
                     {
-                        MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        try
+                        {
+                            EnterDataOneImage();
+
+                            MessageBox.Show("Image successfully added to database", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        }
                     }
                 }
                 else

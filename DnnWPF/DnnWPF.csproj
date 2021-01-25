@@ -222,7 +222,7 @@
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.EnterData.cs" />
     <Compile Include="ViewModels\MainViewModel.SelectImage.cs" />
-    <Compile Include="ViewModels\MainViewModel.RecognitionTypeRoadSigns.cs" />
+    <Compile Include="ViewModels\MainViewModel.RecognisingTypeRoadSign.cs" />
     <Compile Include="ViewModels\MainViewModel.SaveImage.cs" />
     <Compile Include="ViewModels\MainViewModel.Statistics.cs" />
     <Compile Include="ViewModels\RecognisingEmguCVNoCLAHE.cs" />

@@ -19,38 +19,45 @@ namespace DnnWPF.ViewModels
 
         private void Recognize(Action runThreadRecognition, ref RecognisingTypeOfRoadSign<Bgr, Byte> recognising, ref Object model) 
         {
-            var selectLibrary = new SelectLibrary();
-            var resultDialog = selectLibrary.ShowDialog().GetValueOrDefault(false);
-
-            try
+            if(pictureBox.Source != null)
             {
+                var selectLibrary = new SelectLibrary();
+                var resultDialog = selectLibrary.ShowDialog().GetValueOrDefault(false);
+
                 if (resultDialog)
                 {
-                    if (TypeOfLibrary.Contains("Emgu") && !(recognising is RecognisingEmguCVNoCLAHE<Bgr, Byte>))
+                    try
                     {
-                        recognising = new RecognisingEmguCVNoCLAHE<Bgr, Byte>();
+                        if (TypeOfLibrary.Contains("Emgu") && !(recognising is RecognisingEmguCVNoCLAHE<Bgr, Byte>))
+                        {
+                            recognising = new RecognisingEmguCVNoCLAHE<Bgr, Byte>();
 
-                        model = (Net)recognising.LoadModel("netWithoutCLAHE.onnx");
+                            model = (Net)recognising.LoadModel("netWithoutCLAHE.onnx");
+                        }
+                        else if (TypeOfLibrary.Contains("Sharp") && !(recognising is RecognisingSharpCVNoCLAHE<Bgr, Byte>))
+                        {
+                            recognising = new RecognisingSharpCVNoCLAHE<Bgr, Byte>();
+
+                            model = (SharpCV.Net)recognising.LoadModel("netWithoutCLAHE.onnx");
+                        }
+
+                        ThreadStart recognisingDelegate = new ThreadStart(runThreadRecognition);
+                        Thread threadRecognising = new Thread(recognisingDelegate)
+                        {
+                            Priority = ThreadPriority.Highest
+                        };
+
+                        threadRecognising.Start();
                     }
-                    else if (TypeOfLibrary.Contains("Sharp") && !(recognising is RecognisingSharpCVNoCLAHE<Bgr, Byte>))
+                    catch (Exception ex)
                     {
-                        recognising = new RecognisingSharpCVNoCLAHE<Bgr, Byte>();
-
-                        model = (SharpCV.Net)recognising.LoadModel("netWithoutCLAHE.onnx");
+                        MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
-
-                    ThreadStart recognisingDelegate = new ThreadStart(runThreadRecognition);
-                    Thread threadRecognising = new Thread(recognisingDelegate)
-                    {
-                        Priority = ThreadPriority.Highest
-                    };
-
-                    threadRecognising.Start();
                 }
             }
-            catch (Exception ex)
+            else
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("First you should select image", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 

@@ -16,9 +16,12 @@ namespace DnnWPF.ViewModels
             {
                 if (pictureBox.Source != null)
                 {
-                    SaveImage((BitmapSource)pictureBox.Source);
+                    SaveImage((BitmapSource)pictureBox.Source, out Boolean isOK);
 
-                    MessageBox.Show("Image successfully saved", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                    if(isOK)
+                    {
+                        MessageBox.Show("Image successfully saved", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
                 }
                 else
                 {
@@ -28,14 +31,14 @@ namespace DnnWPF.ViewModels
             }));
         }
 
-        private void SaveImage(BitmapSource bitmap)
+        private void SaveImage(BitmapSource bitmap, out Boolean isOK)
         {
             SaveFileDialog saveDialog = new SaveFileDialog();
             saveDialog.Filter = "Image Files(*.PNG)|*.PNG";
 
-            Boolean? dialog = saveDialog.ShowDialog();
+            isOK = saveDialog.ShowDialog().GetValueOrDefault(false);
 
-            if (dialog == true)
+            if (isOK)
             {
                 var encoder = new PngBitmapEncoder();
                 encoder.Frames.Add(BitmapFrame.Create(bitmap));

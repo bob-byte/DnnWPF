@@ -16,9 +16,12 @@ namespace DnnWPF.ViewModels
             {
                 try
                 {
-                    SelectImage(ref image, out openFile);
+                    SelectImage(ref image, out openFile, out Boolean isSelected);
 
-                    pictureBox.Source = ConvertToBitmapSource.LoadBitmap(image.ToBitmap());
+                    if(isSelected)
+                    {
+                        pictureBox.Source = ConvertToBitmapSource.LoadBitmap(image.ToBitmap());
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -32,16 +35,16 @@ namespace DnnWPF.ViewModels
             }));
         }
 
-        private void SelectImage(ref Image<Bgr, Byte> image, out OpenFileDialog openImage)
+        private void SelectImage(ref Image<Bgr, Byte> image, out OpenFileDialog openImage, out Boolean isSelected)
         {
             openImage = new OpenFileDialog
             {
                 Filter = "Image files|*.bmp;*.jpg;*.gif;*.png;*.ppm;*.tif|All files|*.*"
             };
 
-            Boolean? findImage = openImage.ShowDialog();
+            isSelected = openImage.ShowDialog().GetValueOrDefault(false);
 
-            if (findImage == true)
+            if (isSelected)
             {
                 try
                 {
