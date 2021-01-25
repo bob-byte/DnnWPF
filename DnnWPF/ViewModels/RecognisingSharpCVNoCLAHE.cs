@@ -12,12 +12,14 @@ namespace DnnWPF.ViewModels
         {
             Dnn dnn = new Dnn();
             Net model = dnn.ReadNetFromONNX(pathToModel);
+
             return model;
         }
 
         public override Object GetNormalizedDataOfImage(Image<T, U> processedImage)
         {
             var imageData = new Double[processedImage.Bitmap.Width, processedImage.Height];
+
             for (Int32 i = 0; i <= imageData.GetUpperBound(0); i++)
             {
                 for (Int32 j = 0; j <= imageData.GetUpperBound(1); j++)
@@ -26,17 +28,19 @@ namespace DnnWPF.ViewModels
                     imageData[i, j] = GetValueOfPixel(pixel) / 255.0 / 255.0;
                 }
             }
-            var mat = new SharpCV.Mat(imageData);
 
+            var mat = new SharpCV.Mat(imageData);
             return mat;
         }
 
         public override Array ProcessModel<V>(Object modelObj, Object matObj)
         {
             Net model = modelObj as Net;
+
             if (model != null)
             {
                 SharpCV.Mat mat = matObj as SharpCV.Mat;
+
                 if (mat != null)
                 {
                     try
@@ -50,7 +54,6 @@ namespace DnnWPF.ViewModels
                     {
                         throw;
                     }
-
                 }
                 else
                 {

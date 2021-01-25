@@ -7,7 +7,7 @@ using System.Windows.Media.Imaging;
 
 namespace DnnWPF.ViewModels
 {
-    public class ConvertToBitmapSource
+    public static class ConvertToBitmapSource
     {
         [DllImport("gdi32.dll")]
         private static extern Boolean DeleteObject(IntPtr handle);

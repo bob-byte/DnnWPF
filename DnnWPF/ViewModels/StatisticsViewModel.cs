@@ -32,17 +32,25 @@ namespace DnnWPF.ViewModels
         {
             get 
             {
-                Int32 id = dataGrid.SelectedIndex;
-
-                if (id != -1)
+                try
                 {
-                    var roadSign = dataGrid.Items[id] as TypesRoadSigns;
+                    Int32 id = dataGrid.SelectedIndex;
 
-                    using (var query = new Query())
+                    if (id != -1)
                     {
-                        TestedImagesForShow = query.GetTestedImagesByValidId(roadSign.ClassId);
+                        var roadSign = dataGrid.Items[id] as TypesRoadSigns;
+
+                        using (var query = new Query())
+                        {
+                            TestedImagesForShow = query.GetTestedImagesByValidId(roadSign.ClassId);
+                        }
                     }
                 }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+
                 return selectedTypeRoadSign;
             }
             set
@@ -53,12 +61,12 @@ namespace DnnWPF.ViewModels
 
         public StatisticsViewModel(DataGrid dataGrid)
         {
-            using(var query = new Query())
+            this.dataGrid = dataGrid;
+
+            using (var query = new Query())
             {
                 TypesRoadSignsCollection = query.GetAllTypesRoadSigns();
             }
-
-            this.dataGrid = dataGrid;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

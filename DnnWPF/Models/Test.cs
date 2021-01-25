@@ -14,8 +14,8 @@ namespace DnnWPF.Models
             String pathToDirectoryWithImagesForTests, SearchOption searchOption, String searchPattern = null)
         
         {
-            FileInfo[] images;
             DirectoryInfo directory = new DirectoryInfo(pathToDirectoryWithImagesForTests);
+            FileInfo[] images;
 
             if (searchPattern != null)
             {

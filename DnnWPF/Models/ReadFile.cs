@@ -10,6 +10,8 @@ namespace DnnWPF.Models
     {
         private StreamReader reader;
 
+        private Boolean disposedValue = false; // Для определения избыточных вызовов
+
         internal List<TypesRoadSigns> ReadCSVForTypesRoadSigns(String nameFile)
         {
             List<TypesRoadSigns> rowsForDB = new List<TypesRoadSigns>();
@@ -18,10 +20,13 @@ namespace DnnWPF.Models
             while (reader.Peek() >= 0)
             {
                 String textRow = reader.ReadLine();
+
+                //If row contains headers of columns
                 if (textRow.Contains("Class"))
                 {
                     continue;
                 }
+
                 String[] arrayData = textRow.Split(new Char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
 
                 if (arrayData.Length >= 4)
@@ -99,7 +104,6 @@ namespace DnnWPF.Models
         }
 
         #region IDisposable Support
-        private bool disposedValue = false; // Для определения избыточных вызовов
 
         protected virtual void Dispose(bool disposing)
         {
@@ -115,16 +119,15 @@ namespace DnnWPF.Models
             }
         }
 
-        // TODO: переопределить метод завершения, только если Dispose(bool disposing) выше включает код для освобождения неуправляемых ресурсов.
         ~ReadFile()
         {
             Dispose(false);
         }
 
-        // Этот код добавлен для правильной реализации шаблона высвобождаемого класса.
         public void Dispose()
         {
             Dispose(true);
+
             GC.SuppressFinalize(this);
         }
         #endregion

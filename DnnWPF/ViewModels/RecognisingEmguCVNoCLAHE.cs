@@ -24,19 +24,20 @@ namespace DnnWPF.ViewModels
                     {
                         if (k == 0)
                         {
-                            imageData[0, j, i, k] = image.Bitmap.GetPixel(i, j).R / 255.0 / 255.0;
+                            imageData[0, j, i, k] = image.Bitmap.GetPixel(i, j).R / Math.Pow(255, 2);
                         }
                         else if (k == 1)
                         {
-                            imageData[0, j, i, k] = image.Bitmap.GetPixel(i, j).G / 255.0 / 255.0;
+                            imageData[0, j, i, k] = image.Bitmap.GetPixel(i, j).G / Math.Pow(255, 2);
                         }
                         else
                         {
-                            imageData[0, j, i, k] = image.Bitmap.GetPixel(i, j).B / 255.0 / 255.0;
+                            imageData[0, j, i, k] = image.Bitmap.GetPixel(i, j).B / Math.Pow(255, 2);
                         }
                     }
                 }
             }
+
             matND.ManagedArray = imageData;
 
             return matND;
@@ -66,6 +67,5 @@ namespace DnnWPF.ViewModels
                 throw new Exception("Can\'t convert modelObj to Emgu.CV.Dnn.Net");
             }
         }
-
     }
 }

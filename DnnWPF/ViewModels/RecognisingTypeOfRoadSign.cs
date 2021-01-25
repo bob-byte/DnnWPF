@@ -10,19 +10,17 @@ namespace DnnWPF.ViewModels
     {
         public abstract Object LoadModel(String pathToModel);
 
-        public virtual Image<T, U> ProcessImage(Image<T, U> image)
-        {
-            var processedImage = image.Resize(32, 32, Emgu.CV.CvEnum.Inter.Linear, false);
-            return processedImage;
-        }
-
         public abstract Object GetNormalizedDataOfImage(Image<T, U> image);
 
         public abstract Array ProcessModel<V>(Object modelObj, Object matObj) where V : new();
 
+        public virtual Image<T, U> ProcessImage(Image<T, U> image) =>
+            image.Resize(32, 32, Emgu.CV.CvEnum.Inter.Linear, false);
+
         public virtual Int32 GetMax(Array array)
         {
             Single[,] singleArray = array as Single[,];
+
             if (singleArray != null)
             {
                 Int32 i = 0;
@@ -36,6 +34,7 @@ namespace DnnWPF.ViewModels
                         i = j;
                     }
                 }
+
                 return i;
             }
             else
@@ -44,15 +43,10 @@ namespace DnnWPF.ViewModels
             }
         }
 
-        internal Double GetValueOfPixel(System.Drawing.Color color)
-        {
-            Double result = (color.R + color.G + color.B) / 3.0;
-            return result;
-        }
-
         public Int32 GetPredictedIdOfRoadSign<V>(Object modelObj, Image<T, U> image) where V : new()
         {
             Object model = modelObj as Net;
+
             if (model == null)
             {
                 model = modelObj as SharpCV.Net;
@@ -76,5 +70,8 @@ namespace DnnWPF.ViewModels
                 throw;
             }
         }
+
+        internal Double GetValueOfPixel(System.Drawing.Color color) => 
+            (color.R + color.G + color.B) / 3.0;
     }
 }

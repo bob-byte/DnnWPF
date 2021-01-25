@@ -6,7 +6,7 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="StyleForButton.xaml"/>
+                <ResourceDictionary Source="StyleForButtons.xaml"/>
                 <ResourceDictionary Source="StylesForStatistics.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

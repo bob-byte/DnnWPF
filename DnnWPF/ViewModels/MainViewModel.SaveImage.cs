@@ -17,6 +17,8 @@ namespace DnnWPF.ViewModels
                 if (pictureBox.Source != null)
                 {
                     SaveImage((BitmapSource)pictureBox.Source);
+
+                    MessageBox.Show("Image successfully saved", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 else
                 {

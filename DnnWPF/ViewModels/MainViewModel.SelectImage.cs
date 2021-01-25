@@ -12,27 +12,27 @@ namespace DnnWPF.ViewModels
 
         public RelayCommand SelectImageCommand
         {
-            get =>
-                selectImageCommand ?? (selectImageCommand = new RelayCommand(obj =>
+            get => selectImageCommand ?? (selectImageCommand = new RelayCommand(obj =>
+            {
+                try
                 {
-                    try
-                    {
-                        SelectImage(out openFile);
-                        pictureBox.Source = ConvertToBitmapSource.LoadBitmap(image.ToBitmap());
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
+                    SelectImage(ref image, out openFile);
 
-                    ValidLabelName = "";
-                    PredictedLabelName = "";
+                    pictureBox.Source = ConvertToBitmapSource.LoadBitmap(image.ToBitmap());
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
 
-                    isPredicted = false;
-                }));
+                ValidLabelName = "";
+                PredictedLabelName = "";
+
+                isPredicted = false;
+            }));
         }
 
-        private void SelectImage(out OpenFileDialog openImage)
+        private void SelectImage(ref Image<Bgr, Byte> image, out OpenFileDialog openImage)
         {
             openImage = new OpenFileDialog
             {

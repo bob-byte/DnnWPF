@@ -11,6 +11,8 @@ namespace DnnWPF.Models
     {
         private RoadSignsDbContext context = new RoadSignsDbContext();
 
+        private Boolean disposedValue = false; // Для определения избыточных вызовов
+
         internal TestedImages AddImage(String nameImage, Byte validId, Byte predictedId, Boolean whetherUpdateDataOfImage)
         {
             Boolean hasDuplicate = context.TestedImages.Any(c => c.PathToTestedImage.Contains(nameImage));
@@ -21,9 +23,11 @@ namespace DnnWPF.Models
             }
 
             TestedImages image;
+
             if (hasDuplicate && whetherUpdateDataOfImage)
             {
                 var imageForTest = context.ImagesForTests.SingleOrDefault(c => c.PathToImage.Contains(nameImage));
+
                 if (imageForTest == null)
                 {
                     throw new Exception("This image doesn\'t exist in database");
@@ -62,6 +66,7 @@ namespace DnnWPF.Models
                         PrecisionRecognising = precision,
                         TypePredictedSign = context.TypesRoadSigns.Single(c => c.ClassId == predictedId)
                     };
+
                     context.TestedImages.Add(image);
                 }
                 else
@@ -165,7 +170,6 @@ namespace DnnWPF.Models
         }
 
         #region IDisposable Support
-        private Boolean disposedValue = false; // Для определения избыточных вызовов
 
         protected virtual void Dispose(Boolean disposing)
         {
@@ -173,30 +177,23 @@ namespace DnnWPF.Models
             {
                 if (disposing)
                 {
-                    // TODO: освободить управляемое состояние (управляемые объекты).
                     GC.Collect();
                 }
 
-                // TODO: освободить неуправляемые ресурсы (неуправляемые объекты) и переопределить ниже метод завершения.
-                // TODO: задать большим полям значение NULL.
                 context.Dispose();
                 disposedValue = true;
             }
         }
 
-        // TODO: переопределить метод завершения, только если Dispose(bool disposing) выше включает код для освобождения неуправляемых ресурсов.
         ~Query()
         {
-            // Не изменяйте этот код. Разместите код очистки выше, в методе Dispose(bool disposing).
             Dispose(false);
         }
 
-        // Этот код добавлен для правильной реализации шаблона высвобождаемого класса.
         public void Dispose()
         {
-            // Не изменяйте этот код. Разместите код очистки выше, в методе Dispose(bool disposing).
             Dispose(true);
-            // TODO: раскомментировать следующую строку, если метод завершения переопределен выше.
+
             GC.SuppressFinalize(this);
         }
         #endregion

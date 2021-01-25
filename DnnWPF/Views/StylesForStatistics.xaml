@@ -4,12 +4,15 @@
     <Style TargetType="TextBlock" x:Key="oddColumn">
         <Setter Property="Background" Value="#FF9FDD59"/>
     </Style>
+    
     <Style TargetType="TextBlock" x:Key="pairColumn">
         <Setter Property="Background" Value="#FF2F821A"/>
     </Style>
+    
     <Style TargetType="DataGridColumnHeader" x:Key="centerHeader">
         <Setter Property="HorizontalAlignment" Value="Center"/>
     </Style>
+    
     <Style TargetType="DataGridCell" x:Key="cellsCenter">
         <Setter Property="TextBlock.TextAlignment" Value="Center"/>
     </Style>

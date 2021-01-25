@@ -14,10 +14,10 @@ namespace DnnWPF.ViewModels
         public RelayCommand RecognizeCommand
         {
             get => recognizeCommand ?? 
-                (recognizeCommand = new RelayCommand(obj => Recognize(recognition, modelNetwork)));
+                (recognizeCommand = new RelayCommand(obj => Recognize(RunThreadRecognition, ref recognising, ref modelNetwork)));
         }
 
-        private void Recognize(RecognisingTypeOfRoadSign<Bgr, Byte> recognising, Object model) 
+        private void Recognize(Action runThreadRecognition, ref RecognisingTypeOfRoadSign<Bgr, Byte> recognising, ref Object model) 
         {
             var selectLibrary = new SelectLibrary();
             var resultDialog = selectLibrary.ShowDialog().GetValueOrDefault(false);
@@ -39,13 +39,13 @@ namespace DnnWPF.ViewModels
                         model = (SharpCV.Net)recognising.LoadModel("netWithoutCLAHE.onnx");
                     }
 
-                    ThreadStart recognitionDelegate = new ThreadStart(RunThreadRecognition);
-                    Thread threadRecognition = new Thread(recognitionDelegate)
+                    ThreadStart recognisingDelegate = new ThreadStart(runThreadRecognition);
+                    Thread threadRecognising = new Thread(recognisingDelegate)
                     {
                         Priority = ThreadPriority.Highest
                     };
 
-                    threadRecognition.Start();
+                    threadRecognising.Start();
                 }
             }
             catch (Exception ex)
@@ -58,7 +58,7 @@ namespace DnnWPF.ViewModels
         {
             try
             {
-                predictedId = (Byte)recognition.GetPredictedIdOfRoadSign<Double>(modelNetwork, image);
+                predictedId = (Byte)recognising.GetPredictedIdOfRoadSign<Double>(modelNetwork, image);
                 isPredicted = true;
 
                 dispatcher.Invoke(delegate ()

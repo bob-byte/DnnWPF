@@ -19,6 +19,7 @@ namespace DnnWPF.Views
 
             Statistic = new StatisticsViewModel(typesRoadSignsDataGrid);
             DataContext = Statistic;
+
             TestedImages = Statistic.TestedImagesForShow;
         }
     }

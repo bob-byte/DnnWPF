@@ -30,8 +30,8 @@
                                     </LinearGradientBrush>
                                 </Ellipse.Fill>
                             </Ellipse>
-                            
-                            <ContentPresenter Content="{TemplateBinding Content}" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="1"></ContentPresenter>
+
+                            <ContentPresenter Content="{TemplateBinding Content}" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="1"/>
                         </Grid>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">

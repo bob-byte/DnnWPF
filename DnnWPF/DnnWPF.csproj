@@ -219,7 +219,7 @@
     </Compile>
     <Compile Include="Models\Test.cs" />
     <Compile Include="Models\Query.cs" />
-    <Compile Include="ViewModels\MainViewModel.Data.cs" />
+    <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.EnterData.cs" />
     <Compile Include="ViewModels\MainViewModel.SelectImage.cs" />
     <Compile Include="ViewModels\MainViewModel.RecognitionTypeRoadSigns.cs" />
@@ -240,7 +240,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\StyleForButton.xaml">
+    <Page Include="Views\StyleForButtons.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -14,17 +14,22 @@ namespace DnnWPF.ViewModels
     internal partial class MainViewModel : INotifyPropertyChanged, IDisposable
     {
         private OpenFileDialog openFile;
+
         private Image<Bgr, Byte> image;
         private Image pictureBox;
+
         private Dispatcher dispatcher;
-        private RecognisingTypeOfRoadSign<Bgr, Byte> recognition;
+
+        private RecognisingTypeOfRoadSign<Bgr, Byte> recognising;
         private Object modelNetwork;
+
         private Query query;
         private Byte predictedId;
         private Boolean isPredicted;
         private String predictedLabelName;
         private String validLabelName;
-        private bool disposedValue = false; // Для определения избыточных вызовов
+
+        private Boolean disposedValue = false; // Для определения избыточных вызовов
 
         internal static String TypeOfLibrary { private get; set; }
 
@@ -55,9 +60,9 @@ namespace DnnWPF.ViewModels
             this.dispatcher = dispatcher;
             this.pictureBox = pictureBox;
             query = new Query();
-            recognition = new RecognisingEmguCVNoCLAHE<Bgr, Byte>();
+            recognising = new RecognisingEmguCVNoCLAHE<Bgr, Byte>();
 
-            modelNetwork = (Net)recognition.LoadModel("netWithoutCLAHE.onnx");
+            modelNetwork = (Net)recognising.LoadModel("netWithoutCLAHE.onnx");
         }
 
         public void OnPropertyChanged([CallerMemberName]String prop = "") =>
@@ -71,31 +76,24 @@ namespace DnnWPF.ViewModels
             {
                 if (disposing)
                 {
-                    // TODO: освободить управляемое состояние (управляемые объекты).
                     GC.Collect();
                 }
 
-                // TODO: освободить неуправляемые ресурсы (неуправляемые объекты) и переопределить ниже метод завершения.
-                // TODO: задать большим полям значение NULL.
-                query?.Dispose();
+                query.Dispose();
                 image?.Dispose();
                 disposedValue = true;
             }
         }
 
-        // TODO: переопределить метод завершения, только если Dispose(bool disposing) выше включает код для освобождения неуправляемых ресурсов.
         ~MainViewModel()
         {
-            // Не изменяйте этот код. Разместите код очистки выше, в методе Dispose(bool disposing).
             Dispose(false);
         }
 
-        // Этот код добавлен для правильной реализации шаблона высвобождаемого класса.
         public void Dispose()
         {
-            // Не изменяйте этот код. Разместите код очистки выше, в методе Dispose(bool disposing).
             Dispose(true);
-            // TODO: раскомментировать следующую строку, если метод завершения переопределен выше.
+
             GC.SuppressFinalize(this);
         }
         #endregion

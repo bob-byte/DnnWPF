@@ -67,7 +67,7 @@ namespace DnnWPF.ViewModels
         private void Testing(String path)
         {
             var test = new Test<Bgr, Byte, Double>();
-            test.Testing(recognition, modelNetwork, path, SearchOption.TopDirectoryOnly);
+            test.Testing(recognising, modelNetwork, path, SearchOption.TopDirectoryOnly);
         }
 
         public RelayCommand EnterDataOneImageCommand
@@ -89,7 +89,7 @@ namespace DnnWPF.ViewModels
                 }
                 else
                 {
-                    MessageBox.Show("First recognize type of road sign", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MessageBox.Show("First you should recognize type of road sign", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
             }));
         }
