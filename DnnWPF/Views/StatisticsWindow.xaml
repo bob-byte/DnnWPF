@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:DnnWPF.Views"
       x:Class="DnnWPF.Views.StatisticsWindow"
       mc:Ignorable="d"
-      Title="StatisticsWindow" Height="433.239" Background="#FF2F821A" Width="1458.4" FontSize="13" FontWeight="Bold">
+      Title="StatisticsWindow" Height="433.239" Background="#FF2F821A" Width="1467" FontSize="13" FontWeight="Bold">
     <Grid Margin="0,0,3.6,0">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1.2*"/>
@@ -19,11 +19,11 @@
         
         <Label Content="Types of road signs" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Margin="329,1,0,0" VerticalAlignment="Top" FontSize="16"/>
 
-        <DataGrid Grid.Column="0" x:Name="typesRoadSignsDataGrid" AutoGenerateColumns="False" EnableRowVirtualization="True" ItemsSource="{Binding TypesRoadSignsCollection, Mode=OneWay}" Background="#FF9FDD59" Margin="10,10,0,10" SelectedItem="{Binding SelectedTypeRoadSign}" CellStyle="{StaticResource cellsCenter}" IsReadOnly="True" Grid.Row="1" HorizontalAlignment="Left" Width="780">
+        <DataGrid Grid.Column="0" x:Name="typesRoadSignsDataGrid" AutoGenerateColumns="False" EnableRowVirtualization="True" ItemsSource="{Binding TypesRoadSignsCollection, Mode=OneWay}" Background="#FF9FDD59" Margin="10,10,0,10" SelectedItem="{Binding SelectedTypeRoadSign}" CellStyle="{StaticResource cellsCenter}" IsReadOnly="True" Grid.Row="1" HorizontalAlignment="Left" Width="780" ColumnHeaderStyle="{StaticResource centerHeader}">
             <DataGrid.Columns>
                 <DataGridTextColumn x:Name="classIdColumn" Binding="{Binding ClassId}" Header="Class Id" Width="SizeToHeader"  ElementStyle="{StaticResource ResourceKey=oddColumn}"/>
-                <DataGridTextColumn x:Name="nameColumn" Binding="{Binding Name}" Header="Name" Width="230"  ElementStyle="{StaticResource ResourceKey=pairColumn}" HeaderStyle="{StaticResource centerHeader}"/>
-                <DataGridTextColumn x:Name="pathToTemplateImageColumn" Binding="{Binding PathToTemplateImage}" Header="Path To Template Image" Width="250" ElementStyle="{StaticResource ResourceKey=oddColumn}" HeaderStyle="{StaticResource centerHeader}"/>
+                <DataGridTextColumn x:Name="nameColumn" Binding="{Binding Name}" Header="Name" Width="230"  ElementStyle="{StaticResource ResourceKey=pairColumn}"/>
+                <DataGridTextColumn x:Name="pathToTemplateImageColumn" Binding="{Binding PathToTemplateImage}" Header="Path To Template Image" Width="250" ElementStyle="{StaticResource ResourceKey=oddColumn}"/>
                 <DataGridTextColumn x:Name="precisionRecognisingColumn1" Binding="{Binding PrecisionRecognising}" Header="Precision Recognising" Width="SizeToHeader" ElementStyle="{StaticResource ResourceKey=pairColumn}" />
                 <DataGridTextColumn x:Name="countTest" Binding="{Binding CountTest}" Header="Count Test" Width="SizeToHeader" ElementStyle="{StaticResource ResourceKey=oddColumn}" />
             </DataGrid.Columns>
@@ -31,13 +31,13 @@
         
         <Label Grid.Row="0" Grid.Column="1"  Content="Description of images, which were tested with selected road sign" HorizontalAlignment="Left" Margin="54.6,1,0,0" VerticalAlignment="Top" FontSize="16" Height="35" RenderTransformOrigin="0.5,0.5" Width="514" Grid.RowSpan="2"/>
 
-        <DataGrid Grid.Row="1"  x:Name="testedImagesDataGrid" RowDetailsVisibilityMode="VisibleWhenSelected" ItemsSource="{Binding TestedImagesForShow}" EnableRowVirtualization="True" AutoGenerateColumns="False" Background="#FF9FDD59" Margin="28.6,10,14.8,10" CellStyle="{StaticResource cellsCenter}" IsReadOnly="True" RenderTransformOrigin="0.5,0.5" Grid.Column="1">
+        <DataGrid Grid.Row="1"  x:Name="testedImagesDataGrid" RowDetailsVisibilityMode="VisibleWhenSelected" ItemsSource="{Binding TestedImagesForShow}" EnableRowVirtualization="True" AutoGenerateColumns="False" Background="#FF9FDD59" Margin="28.6,10.2,10.4,10" CellStyle="{StaticResource cellsCenter}" IsReadOnly="True" RenderTransformOrigin="0.5,0.5" Grid.Column="1" ColumnHeaderStyle="{StaticResource centerHeader}">
             <DataGrid.Columns>
                 <DataGridTextColumn x:Name="idColumn" Width="50" IsReadOnly="True" Header="Id" Binding="{Binding Id}" ElementStyle="{StaticResource ResourceKey=oddColumn}"/>
-                <DataGridTextColumn x:Name="pathToTestedImageColumn" Width="200" Header="Path To Tested Image" Binding="{Binding PathToTestedImage}" ElementStyle="{StaticResource ResourceKey=pairColumn}" HeaderStyle="{StaticResource centerHeader}"/>
-                <DataGridTextColumn x:Name="validSignIdColumn" Width="SizeToHeader" Header="Valid Sign Id" Binding="{Binding ValidSignId}"  ElementStyle="{StaticResource ResourceKey=oddColumn}" HeaderStyle="{StaticResource centerHeader}"/>
-                <DataGridTextColumn x:Name="predictedSignIdColumn" Width="SizeToHeader" Header="Predicted Sign Id" Binding="{Binding PredictedSignId}" ElementStyle="{StaticResource ResourceKey=pairColumn}" HeaderStyle="{StaticResource centerHeader}"/>
-                <DataGridTextColumn x:Name="precisionRecognisingColumn" Width="SizeToHeader" Header="Precision Recognising" Binding="{Binding PrecisionRecognising}" ElementStyle="{StaticResource ResourceKey=oddColumn}" HeaderStyle="{StaticResource centerHeader}"/>
+                <DataGridTextColumn x:Name="pathToTestedImageColumn" Width="200" Header="Path To Tested Image" Binding="{Binding PathToTestedImage}" ElementStyle="{StaticResource ResourceKey=pairColumn}"/>
+                <DataGridTextColumn x:Name="validSignIdColumn" Width="SizeToHeader" Header="Valid Sign Id" Binding="{Binding ValidSignId}"  ElementStyle="{StaticResource ResourceKey=oddColumn}"/>
+                <DataGridTextColumn x:Name="predictedSignIdColumn" Width="SizeToHeader" Header="Predicted Sign Id" Binding="{Binding PredictedSignId}" ElementStyle="{StaticResource ResourceKey=pairColumn}"/>
+                <DataGridTextColumn x:Name="precisionRecognisingColumn" Width="SizeToHeader" Header="Precision Recognising" Binding="{Binding PrecisionRecognising}" ElementStyle="{StaticResource ResourceKey=oddColumn}"/>
             </DataGrid.Columns>
         </DataGrid>
         

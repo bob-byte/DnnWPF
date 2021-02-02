@@ -97,6 +97,7 @@ namespace DnnWPF.Models
             return context.TypesRoadSigns.Local;
         }
 
+        //Add possibility to add new record to table ImagesForTests
         internal String GetNameOfValidRoadSign(String nameImage)
         {
             if(context.ImagesForTests.Where(c => c.PathToImage.Contains(nameImage)).Count() <= 1)

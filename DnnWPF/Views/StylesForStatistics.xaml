@@ -10,7 +10,8 @@
     </Style>
     
     <Style TargetType="DataGridColumnHeader" x:Key="centerHeader">
-        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
     </Style>
     
     <Style TargetType="DataGridCell" x:Key="cellsCenter">
