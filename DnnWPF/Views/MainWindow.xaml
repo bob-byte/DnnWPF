@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DnnWPF.Views"
         mc:Ignorable="d"
-        Title="Recognising Road Signs" Height="611.6" Width="622.4" MinWidth="700" MinHeight="400">
+        Title="Recognising Road Signs" Height="611.6" Width="622.4" MinWidth="700" MinHeight="400" MaxHeight="700" MaxWidth="800">
     <Grid Background="Black" Margin="0,0,-6.4,-0.4">
         <Grid.RowDefinitions>
             <RowDefinition Height="491*"/>
@@ -22,7 +22,7 @@
                 <MenuItem Header="Test images by selected directory" Command="{Binding TestCommand}" Margin="0,0,-0.4,0" Background="Black" Foreground="Green"/>
             </MenuItem>
         </Menu>
-        
+
         <Border BorderBrush="Green" BorderThickness="3" 
                 Margin="25,66,24,15.2" RenderTransformOrigin="0.5,0.5">
         </Border>
@@ -41,10 +41,10 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            
-            <Button x:Name="Recognise" Command="{Binding Path=RecognizeCommand}" Content="Recognise" HorizontalAlignment="Center" Margin="92,0,68.6,0" VerticalAlignment="Top" Width="189" Height="104" RenderTransformOrigin="0.487,0.699" Style="{StaticResource EllipseGreenButton}"/>
 
-            <Button x:Name="EnterData" Command="{Binding Path=EnterDataOneImageCommand}" Content="Enter data in tables" HorizontalAlignment="Center" Margin="55.4,0,61,0" VerticalAlignment="Top" Width="234" Height="104" Grid.Column="3" Style="{StaticResource EllipseGreenButton}"/>
+            <Button x:Name="Recognise" Command="{Binding Path=RecognizeCommand}" Content="Recognise" Margin="95,0,51.4,21.8" Style="{StaticResource EllipseGreenButton}" Grid.Column="0"/>
+
+            <Button x:Name="EnterData" Command="{Binding Path=EnterDataOneImageCommand}" Content="Enter data in tables"  Margin="52.6,0,64,21.8" Grid.Column="1" Style="{StaticResource EllipseGreenButton}"/>
         </Grid>
     </Grid>
 </Window>
