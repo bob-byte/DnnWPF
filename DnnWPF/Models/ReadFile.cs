@@ -109,12 +109,7 @@ namespace DnnWPF.Models
         {
             if (!disposedValue)
             {
-                if (disposing)
-                {
-                    GC.Collect();
-                }
-
-                reader.Dispose();
+                reader?.Dispose();
                 disposedValue = true;
             }
         }

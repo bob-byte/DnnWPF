@@ -1,10 +1,12 @@
-﻿using Emgu.CV;
+﻿using DnnWPF.Models;
+
+using Emgu.CV;
 using SharpCV;
 using System;
 
 namespace DnnWPF.ViewModels
 {
-    class RecognisingSharpCVNoCLAHE<T, U> : RecognisingTypeOfRoadSign<T, U>
+    class RecognisingSharpCvNoClahe<T, U> : RecognisingTypeOfRoadSign<T, U>
         where T : struct, IColor
         where U : new()
     {
@@ -16,7 +18,7 @@ namespace DnnWPF.ViewModels
             return model;
         }
 
-        public override Object GetNormalizedDataOfImage(Image<T, U> processedImage)
+        public override Object NormalizedDataOfImage(Image<T, U> processedImage)
         {
             var imageData = new Double[processedImage.Bitmap.Width, processedImage.Height];
 
@@ -25,7 +27,7 @@ namespace DnnWPF.ViewModels
                 for (Int32 j = 0; j <= imageData.GetUpperBound(1); j++)
                 {
                     var pixel = processedImage.Bitmap.GetPixel(i, j);
-                    imageData[i, j] = GetValueOfPixel(pixel) / 255.0 / 255.0;
+                    imageData[i, j] = pixel.AveragedValueOfRgb() / 255.0 / 255.0;
                 }
             }
 
@@ -33,7 +35,7 @@ namespace DnnWPF.ViewModels
             return mat;
         }
 
-        public override Array ProcessModel<V>(Object modelObj, Object matObj)
+        public override Array OutputOfNetwork<V>(Object modelObj, Object matObj)
         {
             Net model = modelObj as Net;
 

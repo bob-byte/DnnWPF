@@ -34,11 +34,11 @@ namespace DnnWPF.ViewModels
             {
                 try
                 {
-                    Int32 id = dataGrid.SelectedIndex;
+                    Int32 selectedIndex = dataGrid.SelectedIndex;
 
-                    if (id != -1)
+                    if (selectedIndex != -1)
                     {
-                        var roadSign = dataGrid.Items[id] as TypesRoadSigns;
+                        var roadSign = dataGrid.Items[selectedIndex] as TypesRoadSigns;
 
                         using (var query = new Query())
                         {

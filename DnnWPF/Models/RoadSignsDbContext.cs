@@ -8,7 +8,9 @@ namespace DnnWPF.Models
     {
         public RoadSignsDbContext()
             : base("name=RoadSignsDbContext")
-        { }
+        {
+            Database.Connection.Open();
+        }
 
         public virtual DbSet<ImagesForTests> ImagesForTests { get; set; }
         public virtual DbSet<TestedImages> TestedImages { get; set; }

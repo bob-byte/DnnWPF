@@ -1,4 +1,5 @@
 ﻿using Emgu.CV;
+using Emgu.CV.CvEnum;
 using Emgu.CV.Dnn;
 using System;
 
@@ -8,70 +9,58 @@ namespace DnnWPF.ViewModels
         where T : struct, IColor
         where U : new()
     {
+        protected const Int32 MAX_COLOR_COMPONENT_VALUE = 255;
+
         public abstract Object LoadModel(String pathToModel);
 
-        public abstract Object GetNormalizedDataOfImage(Image<T, U> image);
+        public abstract Object NormalizedDataOfImage(Image<T, U> image);
 
-        public abstract Array ProcessModel<V>(Object modelObj, Object matObj) where V : new();
+        public abstract Array OutputOfNetwork<V>(Object modelObj, Object matObj) where V : new();
 
-        public virtual Image<T, U> ProcessImage(Image<T, U> image) =>
-            image.Resize(32, 32, Emgu.CV.CvEnum.Inter.Linear, false);
+        public virtual Image<T, U> ProcessedImage(Image<T, U> image) =>
+            image.Resize(
+                width: 32, 
+                height: 32, 
+                interpolationType: Inter.Linear, 
+                preserveScale: false
+            );
 
-        public virtual Int32 GetMax(Array array)
+        public virtual Int32 LayerNumWithMaxOutputValue(Array outputOfNetworkForward)
         {
-            Single[,] singleArray = array as Single[,];
-
-            if (singleArray != null)
+            if (outputOfNetworkForward is Single[,] singleArray)
             {
-                Int32 i = 0;
-                Single max = 0;
+                Int32 layerNumWithMaxOutput = 0;
+                Single maxOutputOfLayers = 0;
 
-                for (Int32 j = 0; j <= singleArray.GetUpperBound(1); j++)
+                for (Int32 numLayer = 0; numLayer <= singleArray.GetUpperBound(dimension: 1); numLayer++)
                 {
-                    if (singleArray[0, j] > max)
+                    if (singleArray[0, numLayer] > maxOutputOfLayers)
                     {
-                        max = singleArray[0, j];
-                        i = j;
+                        maxOutputOfLayers = singleArray[0, numLayer];
+                        layerNumWithMaxOutput = numLayer;
                     }
                 }
 
-                return i;
+                return layerNumWithMaxOutput;
             }
             else
             {
-                throw new InvalidCastException("Can\'t convert array to Single[,]");
+                throw new ArgumentException(message: "Can\'t convert to Single[,]", nameof(outputOfNetworkForward));
             }
         }
 
-        public Int32 GetPredictedIdOfRoadSign<V>(Object modelObj, Image<T, U> image) where V : new()
+        public Int32 GetPredictedIdOfRoadSign<V>(Object modelObj, Image<T, U> image) 
+            where V : new()
         {
-            Object model = modelObj as Net;
+            Image<T, U> processedImage = ProcessedImage(image);
+            Object imageData = NormalizedDataOfImage(processedImage);
+            Array preeds = OutputOfNetwork<V>(modelObj, imageData);
+            Int32 predictedId = LayerNumWithMaxOutputValue(preeds);
 
-            if (model == null)
-            {
-                model = modelObj as SharpCV.Net;
-            }
-            if (model == null)
-            {
-                throw new Exception("Can\'t convert modelObj to Net");
-            }
-
-            try
-            {
-                var processedImage = ProcessImage(image);
-                Object imageData = GetNormalizedDataOfImage(processedImage);
-                var preeds = ProcessModel<V>(model, imageData);
-                Int32 predictedId = GetMax(preeds);
-
-                return predictedId;
-            }
-            catch
-            {
-                throw;
-            }
+            return predictedId;
         }
 
-        internal Double GetValueOfPixel(System.Drawing.Color color) => 
+        internal Double ValueOfPixel(System.Drawing.Color color) => 
             (color.R + color.G + color.B) / 3.0;
     }
 }

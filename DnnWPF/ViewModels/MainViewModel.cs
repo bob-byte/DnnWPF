@@ -55,12 +55,13 @@ namespace DnnWPF.ViewModels
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        //Replace in better location
         public MainViewModel(Dispatcher dispatcher, Image pictureBox)
         {
             this.dispatcher = dispatcher;
             this.pictureBox = pictureBox;
-            query = new Query();
-            recognising = new RecognisingEmguCVNoCLAHE<Bgr, Byte>();
+            query = new Query();//Initialize in methods MainViewModel.EnterData.Testing and MainViewModel.EnterData.EnterDataOneImage
+            recognising = new RecognisingEmguCvNoClahe<Bgr, Byte>();
 
             modelNetwork = (Net)recognising.LoadModel("netWithoutCLAHE.onnx");
         }
@@ -68,6 +69,7 @@ namespace DnnWPF.ViewModels
         public void OnPropertyChanged([CallerMemberName]String prop = "") =>
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
 
+        //Delete using destructor
         #region IDisposable Support
 
         protected virtual void Dispose(bool disposing)

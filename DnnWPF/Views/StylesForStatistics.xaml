@@ -1,14 +1,18 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:DnnWPF.Views">
-    <Style TargetType="TextBlock" x:Key="oddColumn">
-        <Setter Property="Background" Value="#FF9FDD59"/>
+    <Style TargetType="TextBlock"
+           x:Key="oddColumn">
+        <Setter Property="Background"
+                Value="#FF9FDD59" />
     </Style>
-    
-    <Style TargetType="TextBlock" x:Key="pairColumn">
-        <Setter Property="Background" Value="#FF2F821A"/>
+
+    <Style TargetType="TextBlock"
+           x:Key="pairColumn">
+        <Setter Property="Background"
+                Value="#FF2F821A" />
     </Style>
-    
+
     <Style TargetType="DataGridColumnHeader" x:Key="centerHeader">
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>

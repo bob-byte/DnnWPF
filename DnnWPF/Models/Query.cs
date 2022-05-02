@@ -9,13 +9,18 @@ namespace DnnWPF.Models
 {
     class Query : IDisposable
     {
-        private RoadSignsDbContext context = new RoadSignsDbContext();
+        private RoadSignsDbContext m_context;
 
         private Boolean disposedValue = false; // Для определения избыточных вызовов
 
+        public Query()
+        {
+            m_context = new RoadSignsDbContext();
+        }
+
         internal TestedImages AddImage(String nameImage, Byte validId, Byte predictedId, Boolean whetherUpdateDataOfImage)
         {
-            Boolean hasDuplicate = context.TestedImages.Any(c => c.PathToTestedImage.Contains(nameImage));
+            Boolean hasDuplicate = m_context.TestedImages.Any(c => c.PathToTestedImage.Contains(nameImage));
 
             if (hasDuplicate && !whetherUpdateDataOfImage)
             {
@@ -26,34 +31,34 @@ namespace DnnWPF.Models
 
             if (hasDuplicate && whetherUpdateDataOfImage)
             {
-                var imageForTest = context.ImagesForTests.SingleOrDefault(c => c.PathToImage.Contains(nameImage));
+                var imageForTest = m_context.ImagesForTests.SingleOrDefault(c => c.PathToImage.Contains(nameImage));
 
                 if (imageForTest == null)
                 {
                     throw new Exception("This image doesn\'t exist in database");
                 }
 
-                var validRoadSign = context.TypesRoadSigns.Single(c => c.ClassId == validId);
+                var validRoadSign = m_context.TypesRoadSigns.Single(c => c.ClassId == validId);
                 validRoadSign.CountTest--;
 
-                image = context.TestedImages.Single(c => c.Id == imageForTest.Id);
+                image = m_context.TestedImages.Single(c => c.Id == imageForTest.Id);
                 image.TypeValidSign = validRoadSign;
-                image.TypePredictedSign = context.TypesRoadSigns.Single(c => c.ClassId == predictedId);
+                image.TypePredictedSign = m_context.TypesRoadSigns.Single(c => c.ClassId == predictedId);
                 image.PrecisionRecognising = GetPrecisionOfImage(validId, predictedId);
             }
             else
             {
-                if (context.ImagesForTests.Where(c => c.PathToImage.Contains(nameImage)).Count() <= 1)
+                if (m_context.ImagesForTests.Where(c => c.PathToImage.Contains(nameImage)).Count() <= 1)
                 {
                     Byte precision = GetPrecisionOfImage(validId, predictedId);
 
-                    var imageForTest = context.ImagesForTests.SingleOrDefault(c => c.PathToImage.Contains(nameImage));
+                    var imageForTest = m_context.ImagesForTests.SingleOrDefault(c => c.PathToImage.Contains(nameImage));
                     if (imageForTest == null)
                     {
-                        imageForTest = context.ImagesForTests.Add(new ImagesForTests
+                        imageForTest = m_context.ImagesForTests.Add(new ImagesForTests
                         {
                             PathToImage = nameImage,
-                            TypeValidSign = context.TypesRoadSigns.Single(c => c.ClassId == validId),
+                            TypeValidSign = m_context.TypesRoadSigns.Single(c => c.ClassId == validId),
                             ValidId = validId
                         });
                     }
@@ -62,12 +67,12 @@ namespace DnnWPF.Models
                     {
                         ImageForTest = imageForTest,
                         PathToTestedImage = nameImage,
-                        TypeValidSign = context.TypesRoadSigns.Single(c => c.ClassId == validId),
+                        TypeValidSign = m_context.TypesRoadSigns.Single(c => c.ClassId == validId),
                         PrecisionRecognising = precision,
-                        TypePredictedSign = context.TypesRoadSigns.Single(c => c.ClassId == predictedId)
+                        TypePredictedSign = m_context.TypesRoadSigns.Single(c => c.ClassId == predictedId)
                     };
 
-                    context.TestedImages.Add(image);
+                    m_context.TestedImages.Add(image);
                 }
                 else
                 {
@@ -75,34 +80,34 @@ namespace DnnWPF.Models
                 }
             }
 
-            context.SaveChanges();
+            m_context.SaveChanges();
             return image;
         }
 
         internal String GetNameOfPredictedRoadSign(Byte id)
         {
-            var roadSign = context.TypesRoadSigns.Single(c => c.ClassId == id);
+            var roadSign = m_context.TypesRoadSigns.Single(c => c.ClassId == id);
             return roadSign.Name;
         }
 
         internal ObservableCollection<TestedImages> GetTestedImagesByValidId(Byte validId)
         {
-            context.TestedImages.Where(c => c.ValidSignId == validId).Load();
-            return context.TestedImages.Local;
+            m_context.TestedImages.Where(c => c.ValidSignId == validId).Load();
+            return m_context.TestedImages.Local;
         }
 
         internal ObservableCollection<TypesRoadSigns> GetAllTypesRoadSigns()
         {
-            context.TypesRoadSigns.Load();
-            return context.TypesRoadSigns.Local;
+            m_context.TypesRoadSigns.Load();
+            return m_context.TypesRoadSigns.Local;
         }
 
         //Add possibility to add new record to table ImagesForTests
         internal String GetNameOfValidRoadSign(String nameImage)
         {
-            if(context.ImagesForTests.Where(c => c.PathToImage.Contains(nameImage)).Count() <= 1)
+            if(m_context.ImagesForTests.Where(c => c.PathToImage.Contains(nameImage)).Count() <= 1)
             {
-                var roadSign = context.ImagesForTests.SingleOrDefault(c => c.PathToImage.Contains(nameImage));
+                var roadSign = m_context.ImagesForTests.SingleOrDefault(c => c.PathToImage.Contains(nameImage));
                 if(roadSign == null)
                 {
                     throw new Exception("This image doesn\'t exist in database");
@@ -118,9 +123,9 @@ namespace DnnWPF.Models
 
         internal Byte GetValidId(String nameImage)
         {
-            if (context.ImagesForTests.Where(c => c.PathToImage.Contains(nameImage)).Count() <= 1)
+            if (m_context.ImagesForTests.Where(c => c.PathToImage.Contains(nameImage)).Count() <= 1)
             {
-                var roadSign = context.ImagesForTests.SingleOrDefault(c => c.PathToImage.Contains(nameImage));
+                var roadSign = m_context.ImagesForTests.SingleOrDefault(c => c.PathToImage.Contains(nameImage));
                 if (roadSign == null)
                 {
                     throw new Exception("Can\'t get valid id of this image");
@@ -136,12 +141,12 @@ namespace DnnWPF.Models
 
         internal void UpdateTypesRoadSigns(Byte validId)
         {
-            var typeRoadSign = context.TypesRoadSigns.Single(c => c.ClassId == validId);
+            var typeRoadSign = m_context.TypesRoadSigns.Single(c => c.ClassId == validId);
 
             typeRoadSign.CountTest++;
             typeRoadSign.PrecisionRecognising = GetPrecisionOfTypeRoadSign(typeRoadSign);
 
-            context.SaveChanges();
+            m_context.SaveChanges();
         }
 
         private Double GetPrecisionOfTypeRoadSign(TypesRoadSigns roadSign)
@@ -170,18 +175,14 @@ namespace DnnWPF.Models
             return precision;
         }
 
+        //Delete using destructor
         #region IDisposable Support
 
         protected virtual void Dispose(Boolean disposing)
         {
             if (!disposedValue)
             {
-                if (disposing)
-                {
-                    GC.Collect();
-                }
-
-                context.Dispose();
+                m_context.Dispose();
                 disposedValue = true;
             }
         }

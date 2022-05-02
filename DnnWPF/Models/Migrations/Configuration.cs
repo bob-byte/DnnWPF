@@ -11,8 +11,6 @@ namespace DnnWPF.Migrations
 {
     internal sealed class Configuration : DbMigrationsConfiguration<RoadSignsDbContext>
     {
-        Boolean doTest = true;
-
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
@@ -24,39 +22,21 @@ namespace DnnWPF.Migrations
             {
                 if (!context.TypesRoadSigns.Any())
                 {
-                    var typesRoadSigns = readFile.ReadCSVForTypesRoadSigns(@"C:\Users\Богдан\Desktop\DnnWPF\DnnWPF\bin\Debug\signnames.csv");
+                    var typesRoadSigns = readFile.ReadCSVForTypesRoadSigns("signnames.csv");
 
-                    foreach (var item in typesRoadSigns)
+                    foreach (var typeRoadSign in typesRoadSigns)
                     {
-                        context.TypesRoadSigns.AddOrUpdate(item);
+                        context.TypesRoadSigns.AddOrUpdate(typeRoadSign);
                     }
                 }
                 if (!context.ImagesForTests.Any())
                 {
-                    var imagesForTests = readFile.ReadCSVForImagesForTests(@"C:\Users\Богдан\Desktop\DnnWPF\DnnWPF\bin\Debug\GTSRB-german-traffic-sign\Test(1000img).csv");
+                    var imagesForTests = readFile.ReadCSVForImagesForTests(@"GTSRB-german-traffic-sign\Test(1000img).csv");
 
-                    foreach (var item in imagesForTests)
+                    foreach (var image in imagesForTests)
                     {
-                        context.ImagesForTests.AddOrUpdate(item);
+                        context.ImagesForTests.AddOrUpdate(image);
                     }
-                    context.SaveChanges();
-                }
-            }
-
-            if(doTest)
-            {
-                try
-                {
-                    var emguCV = new RecognisingEmguCVNoCLAHE<Bgr, Byte>();
-                    var test = new Test<Bgr, Byte, Double>();
-
-                    var model = (Net)emguCV.LoadModel("D:\\netWithoutCLAHE.onnx");
-                    test.Testing(emguCV, model,
-                        @"C:\Users\Богдан\Desktop\DnnWPF\DnnWPF\bin\Debug\GTSRB-german-traffic-sign\TryTest(13img)", SearchOption.TopDirectoryOnly);
-                }
-                catch(Exception ex)
-                {
-                    throw new Exception(ex.Message);
                 }
             }
         }

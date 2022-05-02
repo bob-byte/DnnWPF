@@ -28,15 +28,15 @@ namespace DnnWPF.ViewModels
                 {
                     try
                     {
-                        if (TypeOfLibrary.Contains("Emgu") && !(recognising is RecognisingEmguCVNoCLAHE<Bgr, Byte>))
+                        if (TypeOfLibrary.Contains("Emgu") && !(recognising is RecognisingEmguCvNoClahe<Bgr, Byte>))
                         {
-                            recognising = new RecognisingEmguCVNoCLAHE<Bgr, Byte>();
+                            recognising = new RecognisingEmguCvNoClahe<Bgr, Byte>();
 
                             model = (Net)recognising.LoadModel("netWithoutCLAHE.onnx");
                         }
-                        else if (TypeOfLibrary.Contains("Sharp") && !(recognising is RecognisingSharpCVNoCLAHE<Bgr, Byte>))
+                        else if (TypeOfLibrary.Contains("Sharp") && !(recognising is RecognisingSharpCvNoClahe<Bgr, Byte>))
                         {
-                            recognising = new RecognisingSharpCVNoCLAHE<Bgr, Byte>();
+                            recognising = new RecognisingSharpCvNoClahe<Bgr, Byte>();
 
                             model = (SharpCV.Net)recognising.LoadModel("netWithoutCLAHE.onnx");
                         }
@@ -71,16 +71,7 @@ namespace DnnWPF.ViewModels
                 dispatcher.Invoke(delegate ()
                 {
                     PredictedLabelName = $"Predicted road sign: {query.GetNameOfPredictedRoadSign(predictedId)}";
-
-                    //For checking whether image exist in table
-                    if (!openFile.FileName.Contains($"GTSRB-german-traffic-sign\\Test\\{openFile.SafeFileName}"))
-                    {
-                        MessageBox.Show("This image doesn\'t exist in database", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    }
-                    else
-                    {
-                        ValidLabelName = $"Valid road sign: {query.GetNameOfValidRoadSign(openFile.SafeFileName)}";
-                    }
+                    ValidLabelName = $"Valid road sign: {query.GetNameOfValidRoadSign(openFile.SafeFileName)}";
                 });
             }
             catch (Exception ex)

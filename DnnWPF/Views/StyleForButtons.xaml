@@ -46,7 +46,7 @@
 
                                 <Setter Property="Ellipse.Stroke" TargetName="bigEllipse" Value="Transparent"/>
                             </Trigger>
-                            
+
                             <Trigger Property="IsPressed" Value="True">
                                 <Setter Property="Ellipse.Fill" TargetName="bigEllipse">
                                     <Setter.Value>
