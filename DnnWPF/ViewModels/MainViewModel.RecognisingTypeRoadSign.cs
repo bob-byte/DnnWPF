@@ -1,8 +1,11 @@
 ﻿using DnnWPF.Views;
+
+using Emgu.CV;
 using Emgu.CV.Dnn;
 using Emgu.CV.Structure;
 using System;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace DnnWPF.ViewModels
@@ -14,10 +17,10 @@ namespace DnnWPF.ViewModels
         public RelayCommand RecognizeCommand
         {
             get => recognizeCommand ?? 
-                (recognizeCommand = new RelayCommand(obj => Recognize(RunThreadRecognition, ref recognising, ref modelNetwork)));
+                (recognizeCommand = new RelayCommand( async obj => (recognising, modelNetwork) = await RecognizeAsync(recognising, modelNetwork)));
         }
 
-        private void Recognize(Action runThreadRecognition, ref RecognisingTypeOfRoadSign<Bgr, Byte> recognising, ref Object model) 
+        private async Task<(RecognisingTypeOfRoadSign<Bgr, Byte> recognising, Object model)> RecognizeAsync(RecognisingTypeOfRoadSign<Bgr, Byte> recognising, Object model) 
         {
             if(pictureBox.Source != null)
             {
@@ -41,13 +44,12 @@ namespace DnnWPF.ViewModels
                             model = (SharpCV.Net)recognising.LoadModel("netWithoutCLAHE.onnx");
                         }
 
-                        ThreadStart recognisingDelegate = new ThreadStart(runThreadRecognition);
-                        Thread threadRecognising = new Thread(recognisingDelegate)
-                        {
-                            Priority = ThreadPriority.Highest
-                        };
+                        await Task.Run(() => predictedId = (Byte)recognising.GetPredictedIdOfRoadSign(modelNetwork, image));
 
-                        threadRecognising.Start();
+                        isPredicted = true;
+
+                        PredictedLabelName = $"Predicted road sign: {query.GetNameOfPredictedRoadSign(predictedId)}";
+                        ValidLabelName = $"Valid road sign: {query.GetNameOfValidRoadSign(openFile.SafeFileName)}";
                     }
                     catch (Exception ex)
                     {
@@ -59,25 +61,8 @@ namespace DnnWPF.ViewModels
             {
                 MessageBox.Show("First you should select image", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
-        }
 
-        private void RunThreadRecognition()
-        {
-            try
-            {
-                predictedId = (Byte)recognising.GetPredictedIdOfRoadSign<Double>(modelNetwork, image);
-                isPredicted = true;
-
-                dispatcher.Invoke(delegate ()
-                {
-                    PredictedLabelName = $"Predicted road sign: {query.GetNameOfPredictedRoadSign(predictedId)}";
-                    ValidLabelName = $"Valid road sign: {query.GetNameOfValidRoadSign(openFile.SafeFileName)}";
-                });
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+            return (recognising, model);
         }
     }
 }

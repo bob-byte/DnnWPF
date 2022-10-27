@@ -11,7 +11,7 @@ namespace DnnWPF.ViewModels
         public override Object LoadModel(String pathToModel) =>
             (Object)DnnInvoke.ReadNetFromONNX(pathToModel);
 
-        public override Object NormalizedDataOfImage(Image<T, U> image)
+        protected override Object NormalizedDataOfImage(Image<T, U> image)
         {
             var imageData = new Double[1, 32, 32, 3];
 
@@ -51,11 +51,11 @@ namespace DnnWPF.ViewModels
             return matND;
         }
 
-        public override Array OutputOfNetwork<V>(Object modelObj, Object matObj)
+        protected override Array OutputOfNetwork(Object modelObj, Object matObj)
         {
             if (modelObj is Net model)
             {
-                if (matObj is MatND<V> mat)
+                if (matObj is MatND<Double> mat)
                 {
                     //set input data for neural network
                     model.SetInput(mat);
@@ -69,7 +69,7 @@ namespace DnnWPF.ViewModels
                 }
                 else
                 {
-                    throw new ArgumentException(message: $"Can\'t convert {nameof(matObj)} to {typeof(MatND<V>).FullName}");
+                    throw new ArgumentException(message: $"Can\'t convert {nameof(matObj)} to {typeof(MatND<Double>).FullName}");
                 }
             }
             else

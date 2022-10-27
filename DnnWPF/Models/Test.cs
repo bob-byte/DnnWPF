@@ -8,7 +8,6 @@ namespace DnnWPF.Models
     class Test<T, U, V>
         where T : struct, IColor
         where U : new()
-        where V : struct
     {
         internal void Testing(RecognisingTypeOfRoadSign<T, U> recognising, Object model, 
             String pathToDirectoryWithImagesForTests, SearchOption searchOption, String searchPattern = null)
@@ -41,7 +40,7 @@ namespace DnnWPF.Models
                         Image<T, U> imageEmgu = new Image<T, U>(image.FullName);
 
                         Byte validId = query.GetValidId(pathToImage);
-                        Byte predictedId = (Byte)recognising.GetPredictedIdOfRoadSign<V>(model, imageEmgu);
+                        Byte predictedId = (Byte)recognising.GetPredictedIdOfRoadSign(model, imageEmgu);
 
                         query.AddImage(pathToImage, validId, predictedId, true);
                         query.UpdateTypesRoadSigns(validId);

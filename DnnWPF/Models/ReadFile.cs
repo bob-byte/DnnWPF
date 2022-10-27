@@ -14,7 +14,7 @@ namespace DnnWPF.Models
 
         internal List<TypesRoadSigns> ReadCSVForTypesRoadSigns(String nameFile)
         {
-            List<TypesRoadSigns> rowsForDB = new List<TypesRoadSigns>();
+            var rowsForDB = new List<TypesRoadSigns>();
 
             reader = new StreamReader(nameFile);
             while (reader.Peek() >= 0)
@@ -57,15 +57,15 @@ namespace DnnWPF.Models
         {
             using (var context = new RoadSignsDbContext())
             {
-                var images = context.ImagesForTests.Where(t => pathsToImages.Contains(t.PathToImage)).ToList();
+                List<ImagesForTests> images = context.ImagesForTests.Where(t => pathsToImages.Contains(t.PathToImage)).ToList();
                 if (images == null)
                 {
-                    throw new ArgumentNullException("Can\'t get any image with these paths");
+                    throw new InvalidOperationException(message: "Can\'t get any image with these paths");
                 }
 
                 var roadSign = context.TypesRoadSigns.Single(c => c.ClassId == classId);
 
-                images.ForEach(c => roadSign.AddTestImage(c));
+                images.ForEach(c =>  roadSign.AddTestImage(c));
                 if (whetherSaveChanges)
                 {
                     context.SaveChanges();

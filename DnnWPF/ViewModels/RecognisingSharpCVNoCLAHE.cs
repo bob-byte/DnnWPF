@@ -18,7 +18,7 @@ namespace DnnWPF.ViewModels
             return model;
         }
 
-        public override Object NormalizedDataOfImage(Image<T, U> processedImage)
+        protected override Object NormalizedDataOfImage(Image<T, U> processedImage)
         {
             var imageData = new Double[processedImage.Bitmap.Width, processedImage.Height];
 
@@ -35,7 +35,7 @@ namespace DnnWPF.ViewModels
             return mat;
         }
 
-        public override Array OutputOfNetwork<V>(Object modelObj, Object matObj)
+        protected override Array OutputOfNetwork(Object modelObj, Object matObj)
         {
             Net model = modelObj as Net;
 

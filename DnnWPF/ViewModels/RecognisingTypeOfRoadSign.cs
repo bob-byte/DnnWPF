@@ -5,19 +5,29 @@ using System;
 
 namespace DnnWPF.ViewModels
 {
-    abstract class RecognisingTypeOfRoadSign<T, U> 
-        where T : struct, IColor
-        where U : new()
+    abstract class RecognisingTypeOfRoadSign<TColor, TDepth> 
+        where TColor : struct, IColor
+        where TDepth : new()
     {
         protected const Int32 MAX_COLOR_COMPONENT_VALUE = 255;
 
         public abstract Object LoadModel(String pathToModel);
 
-        public abstract Object NormalizedDataOfImage(Image<T, U> image);
+        public Int32 GetPredictedIdOfRoadSign(Object modelObj, Image<TColor, TDepth> image)
+        {
+            Image<TColor, TDepth> processedImage = ProcessedImage(image);
+            Object imageData = NormalizedDataOfImage(processedImage);
+            Array preeds = OutputOfNetwork(modelObj, imageData);
+            Int32 predictedId = NeuronNumWithMaxOutputValue(preeds);
 
-        public abstract Array OutputOfNetwork<V>(Object modelObj, Object matObj) where V : new();
+            return predictedId;
+        }
 
-        public virtual Image<T, U> ProcessedImage(Image<T, U> image) =>
+        protected abstract Object NormalizedDataOfImage(Image<TColor, TDepth> image);
+
+        protected abstract Array OutputOfNetwork(Object modelObj, Object matObj);
+
+        protected virtual Image<TColor, TDepth> ProcessedImage(Image<TColor, TDepth> image) =>
             image.Resize(
                 width: 32, 
                 height: 32, 
@@ -25,42 +35,29 @@ namespace DnnWPF.ViewModels
                 preserveScale: false
             );
 
-        public virtual Int32 LayerNumWithMaxOutputValue(Array outputOfNetworkForward)
+        protected virtual Int32 NeuronNumWithMaxOutputValue(Array outputOfNetworkForward)
         {
-            if (outputOfNetworkForward is Single[,] singleArray)
+            if (outputOfNetworkForward is Single[,] networkOutputTwoDimArray)
             {
-                Int32 layerNumWithMaxOutput = 0;
-                Single maxOutputOfLayers = 0;
+                Int32 neuronNumWithMaxOutput = 0;
+                Single maxOutputOfNeurons = 0;
+                Int32 neuronCount = networkOutputTwoDimArray.GetUpperBound(dimension: 1) + 1;
 
-                for (Int32 numLayer = 0; numLayer <= singleArray.GetUpperBound(dimension: 1); numLayer++)
+                for (Int32 numNeuron = 0; numNeuron < neuronCount; numNeuron++)
                 {
-                    if (singleArray[0, numLayer] > maxOutputOfLayers)
+                    if (networkOutputTwoDimArray[0, numNeuron] > maxOutputOfNeurons)
                     {
-                        maxOutputOfLayers = singleArray[0, numLayer];
-                        layerNumWithMaxOutput = numLayer;
+                        maxOutputOfNeurons = networkOutputTwoDimArray[0, numNeuron];
+                        neuronNumWithMaxOutput = numNeuron;
                     }
                 }
 
-                return layerNumWithMaxOutput;
+                return neuronNumWithMaxOutput;
             }
             else
             {
                 throw new ArgumentException(message: "Can\'t convert to Single[,]", nameof(outputOfNetworkForward));
             }
         }
-
-        public Int32 GetPredictedIdOfRoadSign<V>(Object modelObj, Image<T, U> image) 
-            where V : new()
-        {
-            Image<T, U> processedImage = ProcessedImage(image);
-            Object imageData = NormalizedDataOfImage(processedImage);
-            Array preeds = OutputOfNetwork<V>(modelObj, imageData);
-            Int32 predictedId = LayerNumWithMaxOutputValue(preeds);
-
-            return predictedId;
-        }
-
-        internal Double ValueOfPixel(System.Drawing.Color color) => 
-            (color.R + color.G + color.B) / 3.0;
     }
 }
